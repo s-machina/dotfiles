@@ -34,4 +34,10 @@ if command -v fzf &> /dev/null; then
     fi
 fi
 
+# Install Claude Code
+if ! command -v claude &> /dev/null; then
+    info "Installing Claude Code..."
+    npm install -g @anthropic-ai/claude-code
+fi
+
 success "Common setup complete"

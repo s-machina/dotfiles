@@ -52,19 +52,21 @@ is_manual() {
     case "$pm" in
         apt)
             case "$brew_name" in
-                lazygit|eza|git-delta) return 0 ;;
+                lazygit|eza|git-delta|fnm|uv) return 0 ;;
                 *) return 1 ;;
             esac
             ;;
         dnf)
             case "$brew_name" in
-                lazygit|eza|git-delta) return 0 ;;
+                lazygit|eza|git-delta|fnm|uv) return 0 ;;
                 *) return 1 ;;
             esac
             ;;
         pacman)
-            # Arch has everything in repos
-            return 1
+            case "$brew_name" in
+                fnm|uv) return 0 ;;  # Install via script for consistency
+                *) return 1 ;;
+            esac
             ;;
         *)
             return 1

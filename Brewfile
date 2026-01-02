@@ -28,5 +28,9 @@ brew "node"
 brew "python"
 brew "go"
 
+# Version managers
+brew "fnm"              # Fast Node Manager
+brew "uv"               # Python version/venv/package manager
+
 # Casks (macOS GUI apps)
 cask "ghostty"

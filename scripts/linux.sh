@@ -130,6 +130,18 @@ install_manual_packages() {
                 ;;
         esac
     fi
+
+    # fnm (Fast Node Manager)
+    if ! command -v fnm &> /dev/null; then
+        info "Installing fnm..."
+        curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
+    fi
+
+    # uv (Python version/venv manager)
+    if ! command -v uv &> /dev/null; then
+        info "Installing uv..."
+        curl -LsSf https://astral.sh/uv/install.sh | sh
+    fi
 }
 
 # Main

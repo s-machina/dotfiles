@@ -15,7 +15,17 @@ fi
 export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:$PATH"
 
-# Node (npm global)
+# fnm (Fast Node Manager)
+if command -v fnm &> /dev/null; then
+    eval "$(fnm env --use-on-cd)"
+fi
+
+# uv (Python version/venv manager)
+if command -v uv &> /dev/null; then
+    eval "$(uv generate-shell-completion zsh)"
+fi
+
+# Node (npm global) - fallback if not using fnm
 export PATH="$HOME/.npm-global/bin:$PATH"
 
 # Local bin
