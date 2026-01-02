@@ -1,0 +1,87 @@
+# Git configuration
+# Note: Set your name and email locally or in ~/.gitconfig.local
+# git config --global user.name "Your Name"
+# git config --global user.email "you@example.com"
+
+[init]
+    defaultBranch = main
+
+[core]
+    editor = nvim
+    pager = delta
+    excludesfile = ~/.gitignore_global
+
+[pull]
+    rebase = true
+
+[push]
+    default = current
+    autoSetupRemote = true
+
+[fetch]
+    prune = true
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    line-numbers = true
+    side-by-side = false
+    syntax-theme = Dracula
+
+[alias]
+    # Status and info
+    s = status -sb
+    l = log --oneline -20
+    lg = log --oneline --graph --decorate --all
+    last = log -1 HEAD --stat
+
+    # Branching
+    br = branch
+    co = checkout
+    cb = checkout -b
+    sw = switch
+    sc = switch -c
+
+    # Commits
+    cm = commit -m
+    ca = commit --amend
+    can = commit --amend --no-edit
+
+    # Staging
+    a = add
+    aa = add --all
+    ap = add --patch
+
+    # Diffs
+    d = diff
+    ds = diff --staged
+    dc = diff --cached
+
+    # Pushing/Pulling
+    p = push
+    pf = push --force-with-lease
+    pl = pull
+
+    # Stash
+    st = stash
+    stp = stash pop
+    stl = stash list
+
+    # Cleanup
+    cleanup = !git branch --merged | grep -v '\\*\\|main\\|master' | xargs -n 1 git branch -d
+
+    # Undo
+    undo = reset HEAD~1 --mixed
+    unstage = reset HEAD --
+
+[include]
+    # Include local overrides (user.name, user.email, etc.)
+    path = ~/.gitconfig.local

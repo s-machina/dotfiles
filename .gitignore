@@ -1,0 +1,13 @@
+# Dotfiles repo .gitignore - specific to this repo only
+
+# Swap/backup files
+*.swp
+*.swo
+*~
+*.bak
+
+# Local overrides (machine-specific, not tracked)
+*.local
+
+# macOS
+.DS_Store
