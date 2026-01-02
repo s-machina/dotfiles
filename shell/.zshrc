@@ -124,6 +124,11 @@ if command -v bat &> /dev/null; then
     alias cat="bat --paging=never"
 fi
 
+# Theme switching (macOS)
+if [[ -x "$HOME/Source/dotfiles/themes/switch-theme.sh" ]]; then
+    alias theme="$HOME/Source/dotfiles/themes/switch-theme.sh"
+fi
+
 # ============================================================================
 # FZF
 # ============================================================================

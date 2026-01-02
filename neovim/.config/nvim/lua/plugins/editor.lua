@@ -1,13 +1,5 @@
 -- Custom editor plugins and overrides
 return {
-  -- Override colorscheme
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "tokyonight",
-    },
-  },
-
   -- File explorer customization
   {
     "nvim-neo-tree/neo-tree.nvim",

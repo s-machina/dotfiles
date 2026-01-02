@@ -1,10 +1,19 @@
 #!/usr/bin/env bash
 # Common setup for all platforms
+#
+# Expected environment variables (set by platform scripts):
+#   EXTRA_STOW_PACKAGES - space-separated list of additional stow packages
 
 info "Running common setup..."
 
-# Stow packages to create symlinks
+# Base stow packages (all platforms)
 STOW_PACKAGES=(shell neovim tmux git)
+
+# Add platform-specific packages
+if [[ -n "$EXTRA_STOW_PACKAGES" ]]; then
+    # shellcheck disable=SC2206
+    STOW_PACKAGES+=($EXTRA_STOW_PACKAGES)
+fi
 
 info "Creating symlinks with stow..."
 cd "$DOTFILES_DIR"
@@ -12,7 +21,6 @@ cd "$DOTFILES_DIR"
 for package in "${STOW_PACKAGES[@]}"; do
     if [[ -d "$package" ]]; then
         info "  Stowing $package..."
-        # Use --adopt to handle existing files, then restore from git
         stow -v --target="$HOME" "$package" 2>&1 | grep -v "^LINK:" || true
     fi
 done
@@ -25,16 +33,7 @@ if [[ "$SHELL" != *"zsh"* ]]; then
     fi
 fi
 
-# Install fzf key bindings if available
-if command -v fzf &> /dev/null; then
-    if [[ -f /opt/homebrew/opt/fzf/install ]]; then
-        /opt/homebrew/opt/fzf/install --key-bindings --completion --no-update-rc --no-bash --no-fish
-    elif [[ -f /usr/local/opt/fzf/install ]]; then
-        /usr/local/opt/fzf/install --key-bindings --completion --no-update-rc --no-bash --no-fish
-    fi
-fi
-
-# Install Claude Code
+# Install npm global packages
 if ! command -v claude &> /dev/null; then
     info "Installing Claude Code..."
     npm install -g @anthropic-ai/claude-code

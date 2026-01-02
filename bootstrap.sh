@@ -44,6 +44,24 @@ main() {
     # Run common setup (stow packages)
     source "$DOTFILES_DIR/scripts/common.sh"
 
+    # Run OS-specific post-setup
+    case "$os" in
+        macos)
+            # Set up theme switching
+            if [[ -x "$DOTFILES_DIR/themes/switch-theme.sh" ]]; then
+                info "Setting up theme based on system appearance..."
+                "$DOTFILES_DIR/themes/switch-theme.sh"
+            fi
+
+            # Load the theme watcher launch agent
+            if [[ -f "$HOME/Library/LaunchAgents/com.dotfiles.theme-watcher.plist" ]]; then
+                info "Loading theme watcher agent..."
+                launchctl unload "$HOME/Library/LaunchAgents/com.dotfiles.theme-watcher.plist" 2>/dev/null || true
+                launchctl load "$HOME/Library/LaunchAgents/com.dotfiles.theme-watcher.plist"
+            fi
+            ;;
+    esac
+
     success "Bootstrap complete!"
     echo ""
     echo "Next steps:"

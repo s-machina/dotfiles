@@ -7,13 +7,13 @@ info "Setting up macOS..."
 if ! command -v brew &> /dev/null; then
     info "Installing Homebrew..."
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
 
-    # Add Homebrew to PATH for this session
-    if [[ -f /opt/homebrew/bin/brew ]]; then
-        eval "$(/opt/homebrew/bin/brew shellenv)"
-    elif [[ -f /usr/local/bin/brew ]]; then
-        eval "$(/usr/local/bin/brew shellenv)"
-    fi
+# Ensure Homebrew is in PATH (also sets HOMEBREW_PREFIX)
+if [[ -f /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+elif [[ -f /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
 fi
 
 # Update Homebrew
@@ -24,4 +24,12 @@ brew update
 info "Installing packages from Brewfile..."
 brew bundle --file="$DOTFILES_DIR/Brewfile"
 
-success "macOS setup complete"
+# Install fzf key bindings
+if [[ -f "$HOMEBREW_PREFIX/opt/fzf/install" ]]; then
+    "$HOMEBREW_PREFIX/opt/fzf/install" --key-bindings --completion --no-update-rc --no-bash --no-fish
+fi
+
+# Set extra stow packages for common.sh
+export EXTRA_STOW_PACKAGES="ghostty macos"
+
+success "macOS package installation complete"

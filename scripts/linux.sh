@@ -150,4 +150,7 @@ install_packages "$pm"
 fix_symlinks
 install_manual_packages "$pm"
 
+# Set extra stow packages for common.sh (none for Linux currently)
+export EXTRA_STOW_PACKAGES=""
+
 success "Linux setup complete"
