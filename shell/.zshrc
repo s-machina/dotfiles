@@ -20,11 +20,6 @@ if command -v fnm &> /dev/null; then
     eval "$(fnm env --use-on-cd)"
 fi
 
-# uv (Python version/venv manager)
-if command -v uv &> /dev/null; then
-    eval "$(uv generate-shell-completion zsh)"
-fi
-
 # Node (npm global) - fallback if not using fnm
 export PATH="$HOME/.npm-global/bin:$PATH"
 
@@ -70,6 +65,11 @@ zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' # Case insensitive
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
+# uv (Python version/venv manager)
+if command -v uv &> /dev/null; then
+    eval "$(uv generate-shell-completion zsh)"
+fi
+
 # ============================================================================
 # Key bindings
 # ============================================================================
@@ -110,7 +110,7 @@ alias glog="git log --oneline --graph --decorate"
 alias lg="lazygit"
 
 # Editor
-alias v="nvim"
+alias vi="nvim"
 alias vim="nvim"
 
 # Better defaults

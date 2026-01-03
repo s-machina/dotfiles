@@ -1,6 +1,7 @@
 # Ghostty configuration
-# Theme is managed by themes/switch-theme.sh
-theme = tokyonight-day
+
+# Theme - auto-switches based on macOS appearance
+theme = light:TokyoNight Day,dark:TokyoNight Storm
 
 # Font
 font-family = JetBrainsMono Nerd Font

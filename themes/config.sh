@@ -1,14 +1,19 @@
 #!/usr/bin/env bash
 # Central theme configuration
-# Edit these values to change themes across all apps
+#
+# Set themes using Ghostty naming (capitals and spaces).
+# Neovim names are derived automatically (lowercase, spaces → dashes)
 
-# TokyoNight variants
-THEME_LIGHT="tokyonight-day"
-THEME_DARK="tokyonight-storm"
+# Theme names (Ghostty style)
+THEME_LIGHT="TokyoNight Day"
+THEME_DARK="TokyoNight Storm"
 
-# Neovim colorscheme names (may differ from terminal theme names)
-NVIM_THEME_LIGHT="tokyonight-day"
-NVIM_THEME_DARK="tokyonight-storm"
+# Derive Neovim colorscheme names (lowercase, spaces to dashes)
+to_nvim_theme() {
+    echo "$1" | tr '[:upper:]' '[:lower:]' | tr ' ' '-'
+}
 
-# Export for use by other scripts
+NVIM_THEME_LIGHT=$(to_nvim_theme "$THEME_LIGHT")
+NVIM_THEME_DARK=$(to_nvim_theme "$THEME_DARK")
+
 export THEME_LIGHT THEME_DARK NVIM_THEME_LIGHT NVIM_THEME_DARK
