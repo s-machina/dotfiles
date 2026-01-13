@@ -24,6 +24,11 @@ brew update
 info "Installing packages from Brewfile..."
 brew bundle --file="$DOTFILES_DIR/Brewfile"
 
+# Remove quarantine attribute from Ghostty (Gatekeeper blocks cask-installed apps)
+if [[ -d /Applications/Ghostty.app ]]; then
+    xattr -cr /Applications/Ghostty.app
+fi
+
 # Install fzf key bindings
 if [[ -f "$HOMEBREW_PREFIX/opt/fzf/install" ]]; then
     "$HOMEBREW_PREFIX/opt/fzf/install" --key-bindings --completion --no-update-rc --no-bash --no-fish
