@@ -159,6 +159,72 @@ setopt PROMPT_SUBST
 PROMPT='%F{blue}%~%f ${vcs_info_msg_0_}%F{green}❯%f '
 
 # ============================================================================
+# Tmux Session Management
+# ============================================================================
+
+# Path to tmux session management script
+TMUX_SESSION_SCRIPT="$HOME/Source/dotfiles/scripts/tmux-session.sh"
+
+# Aliases for tmux session management
+if [[ -x "$TMUX_SESSION_SCRIPT" ]]; then
+    alias tm="$TMUX_SESSION_SCRIPT"                    # Quick session connect/create
+    alias tms="$TMUX_SESSION_SCRIPT --select"          # Interactive session selection
+    alias tml="$TMUX_SESSION_SCRIPT --list"            # List sessions
+    alias tm3="$TMUX_SESSION_SCRIPT --three-split"     # Create with three-split layout
+fi
+
+# Function to create a new tmux session with three-split layout
+tm3s() {
+    local session_name="${1:-dev}"
+    if [[ -x "$TMUX_SESSION_SCRIPT" ]]; then
+        "$TMUX_SESSION_SCRIPT" --new --three-split "$session_name"
+    else
+        echo "Tmux session script not found at: $TMUX_SESSION_SCRIPT"
+    fi
+}
+
+# Function for smart tmux attachment (for SSH sessions)
+tmux_auto_attach() {
+    # Only auto-attach if:
+    # 1. We're in an SSH session
+    # 2. We're not already in a tmux session
+    # 3. This is an interactive shell
+    # 4. The tmux session script exists
+    if [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" ]] && [[ -z "$TMUX" ]] && [[ $- == *i* ]] && [[ -x "$TMUX_SESSION_SCRIPT" ]]; then
+        echo "🚀 Welcome to your remote development environment!"
+        echo "📋 Available tmux sessions:"
+
+        # Show existing sessions if any
+        if tmux list-sessions &>/dev/null; then
+            tmux list-sessions -F "   #{session_name} (#{session_windows} windows)"
+        else
+            echo "   (no existing sessions)"
+        fi
+
+        echo ""
+        echo "💡 Quick commands:"
+        echo "   tm           - Connect to/create default session"
+        echo "   tm <name>    - Connect to/create named session"
+        echo "   tm3 <name>   - Create session with 3-split layout"
+        echo "   tms          - Interactive session selector"
+        echo ""
+
+        # Ask if user wants to connect to a session
+        read -t 10 -p "Auto-connect to default session? (y/N, 10s timeout): " -n 1 auto_connect
+        echo ""
+
+        if [[ "$auto_connect" =~ ^[Yy]$ ]]; then
+            "$TMUX_SESSION_SCRIPT"
+        else
+            echo "Use 'tm' command when ready to start tmux session."
+        fi
+    fi
+}
+
+# Call auto-attach function when shell starts
+tmux_auto_attach
+
+# ============================================================================
 # Local config (not tracked in git)
 # ============================================================================
 
