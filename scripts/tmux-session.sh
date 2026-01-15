@@ -61,7 +61,7 @@ create_session() {
         tmux new-session -d -s "$session_name"
         tmux split-window -h -p 50 -t "$session_name"
         tmux split-window -v -p 50 -t "$session_name"
-        tmux select-pane -t "$session_name:0.0"
+        tmux select-pane -t "$session_name:1.1"
         print_success "Created session '$session_name' with three-split layout"
     else
         # Create regular session
