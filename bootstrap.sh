@@ -65,10 +65,13 @@ main() {
     success "Bootstrap complete!"
     echo ""
     echo "Next steps:"
-    echo "  1. Restart your shell or run: source ~/.zshrc"
-    echo "  2. Open neovim to install plugins: nvim"
-    echo "  3. Configure git user: git config --global user.name 'Your Name'"
-    echo "                         git config --global user.email 'you@example.com'"
+    echo "  - Restart your shell or run: source ~/.zshrc"
+
+    # Only suggest git config if not already set (check from ~ to avoid local repo config)
+    if [[ -z "$(cd ~ && git config user.name)" ]] || [[ -z "$(cd ~ && git config user.email)" ]]; then
+        echo "  - Configure git user: git config --global user.name 'Your Name'"
+        echo "                        git config --global user.email 'you@example.com'"
+    fi
 }
 
 main "$@"
