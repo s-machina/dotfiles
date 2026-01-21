@@ -39,4 +39,10 @@ if ! command -v claude &> /dev/null; then
     npm install -g @anthropic-ai/claude-code
 fi
 
+# Set up Claude Code configuration if it was installed and config exists
+if command -v claude &> /dev/null && [[ -f "$DOTFILES_DIR/claude-code/setup-claude-config.sh" ]]; then
+    info "Setting up Claude Code configuration..."
+    "$DOTFILES_DIR/claude-code/setup-claude-config.sh"
+fi
+
 success "Common setup complete"

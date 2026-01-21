@@ -18,6 +18,7 @@ Cross-platform dotfiles with automatic theme switching.
 - lazygit - Git TUI
 - fnm - Node version manager
 - uv - Python package manager
+- Claude Code - AI coding assistant
 
 ## Installation
 
@@ -31,8 +32,10 @@ The bootstrap script will:
 
 1. Install Homebrew (macOS) or use your system package manager (Linux)
 2. Install all packages from the Brewfile
-3. Symlink dotfiles using GNU Stow
-4. Set up automatic theme switching (macOS)
+3. Install Claude Code via npm
+4. Symlink dotfiles using GNU Stow
+5. Set up Claude Code configuration (selective symlinks)
+6. Set up automatic theme switching (macOS)
 
 ## Platform Support
 
@@ -61,6 +64,7 @@ dotfiles/
 ├── neovim/          # Neovim config
 ├── tmux/            # Tmux config
 ├── git/             # Git config
+├── claude-code/     # Claude Code config
 ├── ghostty/         # Ghostty config (macOS)
 ├── themes/          # Theme switching scripts
 ├── macos/           # macOS-specific files
@@ -70,4 +74,5 @@ dotfiles/
 ## Post-Install
 
 - Edit `~/.gitconfig.local` for personal git settings (name, email)
+- Configure Claude Code settings in `~/.claude/settings.json` for machine-specific config
 - Restart your terminal or run `source ~/.zshrc`
