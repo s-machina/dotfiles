@@ -1,25 +1,42 @@
 -- Custom editor plugins and overrides
 return {
-  -- File explorer customization
+  -- Disable neo-tree entirely - use snacks explorer instead
   {
     "nvim-neo-tree/neo-tree.nvim",
-    opts = {
-      filesystem = {
-        filtered_items = {
-          visible = true,
-          hide_dotfiles = false,
-          hide_gitignored = false,
-        },
-      },
-    },
+    enabled = false,
   },
 
-  -- Telescope customization
+  -- Telescope customization - now that neo-tree is disabled, restore file finding
   {
     "nvim-telescope/telescope.nvim",
     keys = {
       { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Live Grep" },
       { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
+    },
+  },
+
+  -- Configure snacks explorer for file browsing
+  {
+    "folke/snacks.nvim",
+    opts = {
+      explorer = {
+        enabled = true,
+      },
+    },
+  },
+
+  -- Disable markdown diagnostics/warnings
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      servers = {
+        marksman = {
+          -- Disable markdown LSP diagnostics
+          handlers = {
+            ["textDocument/publishDiagnostics"] = function() end,
+          },
+        },
+      },
     },
   },
 
