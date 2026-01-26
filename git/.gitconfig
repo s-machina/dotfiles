@@ -34,7 +34,10 @@
     navigate = true
     line-numbers = true
     side-by-side = false
-    syntax-theme = Dracula
+
+[include]
+    # Delta theme (managed by switch-theme.sh)
+    path = ~/.config/delta/theme.gitconfig
 
 [alias]
     # Status and info

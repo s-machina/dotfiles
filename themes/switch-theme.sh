@@ -3,6 +3,7 @@
 # - Ghostty: handled natively via theme = light:x,dark:y
 # - Neovim: handled by auto-dark-mode.nvim plugin
 # - Tmux: needs manual update (this script)
+# - Delta (git diff): needs manual update (this script)
 set -euo pipefail
 
 # Detect macOS appearance
@@ -47,6 +48,30 @@ EOF
     fi
 }
 
+# Update delta (git diff) theme
+update_delta() {
+    local mode="$1"
+    local delta_theme_file="$HOME/.config/delta/theme.gitconfig"
+
+    mkdir -p "$(dirname "$delta_theme_file")"
+
+    if [[ "$mode" == "dark" ]]; then
+        cat > "$delta_theme_file" << 'EOF'
+# Dark theme (TokyoNight Storm)
+[delta]
+    syntax-theme = tokyonight_storm
+    light = false
+EOF
+    else
+        cat > "$delta_theme_file" << 'EOF'
+# Light theme (TokyoNight Day)
+[delta]
+    syntax-theme = tokyonight_day
+    light = true
+EOF
+    fi
+}
+
 # Main
 main() {
     local mode
@@ -58,6 +83,7 @@ main() {
 
     echo "Switching to $mode mode..."
     update_tmux "$mode"
+    update_delta "$mode"
     echo "Theme switched to $mode"
 }
 

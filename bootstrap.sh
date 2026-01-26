@@ -44,6 +44,21 @@ main() {
     # Run common setup (stow packages)
     source "$DOTFILES_DIR/scripts/common.sh"
 
+    # Install bat themes for delta (git diff)
+    if command -v bat &>/dev/null; then
+        local bat_themes_dir="$HOME/.config/bat/themes"
+        if [[ ! -f "$bat_themes_dir/tokyonight_storm.tmTheme" ]]; then
+            info "Installing bat themes for delta..."
+            mkdir -p "$bat_themes_dir"
+            curl -sL "https://raw.githubusercontent.com/folke/tokyonight.nvim/main/extras/sublime/tokyonight_storm.tmTheme" \
+                -o "$bat_themes_dir/tokyonight_storm.tmTheme"
+            curl -sL "https://raw.githubusercontent.com/folke/tokyonight.nvim/main/extras/sublime/tokyonight_day.tmTheme" \
+                -o "$bat_themes_dir/tokyonight_day.tmTheme"
+            bat cache --build
+            success "Bat themes installed"
+        fi
+    fi
+
     # Run OS-specific post-setup
     case "$os" in
         macos)
