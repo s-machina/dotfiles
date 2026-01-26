@@ -17,6 +17,10 @@ export PATH="$GOPATH/bin:$PATH"
 
 # fnm (Fast Node Manager)
 if command -v fnm &> /dev/null; then
+    # Set system node as default if not already set
+    if ! fnm list | grep -q "system default"; then
+        fnm default system
+    fi
     eval "$(fnm env --use-on-cd)"
 fi
 
