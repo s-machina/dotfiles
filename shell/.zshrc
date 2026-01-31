@@ -11,6 +11,20 @@ elif [[ -f /usr/local/bin/brew ]]; then
     eval "$(/usr/local/bin/brew shellenv)"
 fi
 
+# SSH Agent - reuse existing or start new
+if [[ -z "$SSH_AUTH_SOCK" ]]; then
+    # Check for existing agent
+    if [[ -f ~/.ssh/agent.env ]]; then
+        source ~/.ssh/agent.env > /dev/null
+    fi
+    # Start new agent if not running
+    if ! ssh-add -l &> /dev/null; then
+        eval "$(ssh-agent -s)" > /dev/null
+        echo "SSH_AUTH_SOCK=$SSH_AUTH_SOCK; export SSH_AUTH_SOCK;" > ~/.ssh/agent.env
+        echo "SSH_AGENT_PID=$SSH_AGENT_PID; export SSH_AGENT_PID;" >> ~/.ssh/agent.env
+    fi
+fi
+
 # Go
 export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:$PATH"
