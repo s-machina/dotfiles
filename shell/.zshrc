@@ -214,7 +214,7 @@ tmux_auto_attach() {
         echo ""
 
         # Ask if user wants to connect to a session
-        read -t 10 -p "Auto-connect to default session? (y/N, 10s timeout): " -n 1 auto_connect
+        read -t 10 -k 1 "auto_connect?Auto-connect to default session? (y/N, 10s timeout): "
         echo ""
 
         if [[ "$auto_connect" =~ ^[Yy]$ ]]; then
