@@ -24,3 +24,6 @@ copy-on-select = clipboard
 
 # Scrollback
 scrollback-limit = 10000
+
+# SSH Madness
+shell-integration-features = ssh-terminfo

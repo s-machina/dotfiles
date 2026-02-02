@@ -142,6 +142,9 @@ if command -v bat &> /dev/null; then
     alias cat="bat --paging=never"
 fi
 
+# Terminal fix
+alias ft="reset && stty sane"
+
 # Theme switching (macOS)
 if [[ -x "$HOME/Source/dotfiles/themes/switch-theme.sh" ]]; then
     alias theme="$HOME/Source/dotfiles/themes/switch-theme.sh"
