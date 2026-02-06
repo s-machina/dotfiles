@@ -101,11 +101,10 @@ install_manual_packages() {
         info "Installing eza..."
         case "$pm" in
             apt)
-                sudo mkdir -p /etc/apt/keyrings
-                wget -qO- https://raw.githubusercontent.com/eza-community/eza/main/deb.asc | sudo gpg --dearmor -o /etc/apt/keyrings/gierens.gpg
-                echo "deb [signed-by=/etc/apt/keyrings/gierens.gpg] http://deb.gierens.de stable main" | sudo tee /etc/apt/sources.list.d/gierens.list
-                sudo apt update
-                sudo apt install -y eza
+                curl -Lo /tmp/eza.tar.gz "https://github.com/eza-community/eza/releases/latest/download/eza_x86_64-unknown-linux-gnu.tar.gz"
+                tar xf /tmp/eza.tar.gz -C /tmp ./eza
+                sudo install /tmp/eza /usr/local/bin
+                rm /tmp/eza /tmp/eza.tar.gz
                 ;;
             dnf)
                 sudo dnf install -y eza
