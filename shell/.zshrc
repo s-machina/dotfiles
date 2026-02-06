@@ -50,6 +50,11 @@ export PATH="$HOME/.npm-global/bin:$PATH"
 # Local bin
 export PATH="$HOME/.local/bin:$PATH"
 
+# SSH session detection
+if [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" ]]; then
+    SSH_SESSION=1
+fi
+
 # Editor
 export EDITOR="nvim"
 export VISUAL="nvim"
@@ -192,6 +197,7 @@ zstyle ':vcs_info:git:*' formats '%F{magenta}(%b)%f '
 
 setopt PROMPT_SUBST
 PROMPT='%F{blue}%~%f ${vcs_info_msg_0_}%F{green}❯%f '
+[[ -n "$SSH_SESSION" ]] && PROMPT='%F{yellow}%n@%m%f '"$PROMPT"
 
 # ============================================================================
 # Tmux Session Management
@@ -225,7 +231,7 @@ tmux_auto_attach() {
     # 2. We're not already in a tmux session
     # 3. This is an interactive shell
     # 4. The tmux session script exists
-    if [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" ]] && [[ -z "$TMUX" ]] && [[ $- == *i* ]] && [[ -x "$TMUX_SESSION_SCRIPT" ]]; then
+    if [[ -n "$SSH_SESSION" ]] && [[ -z "$TMUX" ]] && [[ $- == *i* ]] && [[ -x "$TMUX_SESSION_SCRIPT" ]]; then
         echo "🚀 Welcome to your remote development environment!"
         echo "📋 Available tmux sessions:"
 
