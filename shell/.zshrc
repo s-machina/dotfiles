@@ -151,6 +151,14 @@ fi
 # Terminal fix
 alias ft="reset && stty sane"
 
+# Wrap ssh to auto-reset terminal after disconnect
+ssh() {
+    command ssh "$@"
+    local ret=$?
+    reset && stty sane
+    return $ret
+}
+
 # Theme switching (macOS)
 if [[ -n "$DOTFILES_DIR" ]] && [[ -x "$DOTFILES_DIR/themes/switch-theme.sh" ]]; then
     alias theme="$DOTFILES_DIR/themes/switch-theme.sh"
