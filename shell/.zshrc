@@ -1,6 +1,12 @@
 # ~/.zshrc - Zsh configuration
 
 # ============================================================================
+# Dotfiles directory (written by bootstrap.sh)
+# ============================================================================
+
+[[ -f "$HOME/.config/dotfiles/env" ]] && source "$HOME/.config/dotfiles/env"
+
+# ============================================================================
 # Environment
 # ============================================================================
 
@@ -146,8 +152,8 @@ fi
 alias ft="reset && stty sane"
 
 # Theme switching (macOS)
-if [[ -x "$HOME/Source/dotfiles/themes/switch-theme.sh" ]]; then
-    alias theme="$HOME/Source/dotfiles/themes/switch-theme.sh"
+if [[ -n "$DOTFILES_DIR" ]] && [[ -x "$DOTFILES_DIR/themes/switch-theme.sh" ]]; then
+    alias theme="$DOTFILES_DIR/themes/switch-theme.sh"
 fi
 
 # ============================================================================
@@ -184,7 +190,7 @@ PROMPT='%F{blue}%~%f ${vcs_info_msg_0_}%F{green}❯%f '
 # ============================================================================
 
 # Path to tmux session management script
-TMUX_SESSION_SCRIPT="$HOME/Source/dotfiles/scripts/tmux-session.sh"
+TMUX_SESSION_SCRIPT="$DOTFILES_DIR/scripts/tmux-session.sh"
 
 # Aliases for tmux session management
 if [[ -x "$TMUX_SESSION_SCRIPT" ]]; then

@@ -41,6 +41,10 @@ main() {
             ;;
     esac
 
+    # Persist DOTFILES_DIR for shell config
+    mkdir -p "$HOME/.config/dotfiles"
+    echo "DOTFILES_DIR=\"$DOTFILES_DIR\"" > "$HOME/.config/dotfiles/env"
+
     # Run common setup (stow packages)
     source "$DOTFILES_DIR/scripts/common.sh"
 
