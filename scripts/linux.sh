@@ -70,6 +70,19 @@ fix_symlinks() {
 install_manual_packages() {
     local pm="$1"
 
+    # Neovim (distro versions are too old for LazyVim)
+    local nvim_ver
+    nvim_ver=$(nvim --version 2>/dev/null | head -1 | grep -oP '\d+\.\d+' || echo "0.0")
+    if ! command -v nvim &> /dev/null || [[ "$(printf '%s\n' "0.10" "$nvim_ver" | sort -V | head -1)" != "0.10" ]]; then
+        info "Installing Neovim from GitHub releases..."
+        curl -Lo /tmp/nvim-linux-x86_64.tar.gz "https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz"
+        mkdir -p "$HOME/.local"
+        rm -rf "$HOME/.local/lib/nvim" "$HOME/.local/share/nvim/runtime"
+        tar xf /tmp/nvim-linux-x86_64.tar.gz -C "$HOME/.local" --strip-components=1
+        rm /tmp/nvim-linux-x86_64.tar.gz
+        success "Neovim installed: $("$HOME/.local/bin/nvim" --version | head -1)"
+    fi
+
     # GitHub CLI (apt/dnf need special repo)
     if ! command -v gh &> /dev/null; then
         case "$pm" in

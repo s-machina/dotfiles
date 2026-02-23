@@ -52,13 +52,13 @@ is_manual() {
     case "$pm" in
         apt)
             case "$brew_name" in
-                lazygit|eza|git-delta|fnm|uv) return 0 ;;
+                neovim|lazygit|eza|git-delta|fnm|uv) return 0 ;;
                 *) return 1 ;;
             esac
             ;;
         dnf)
             case "$brew_name" in
-                lazygit|eza|git-delta|fnm|uv) return 0 ;;
+                neovim|lazygit|eza|git-delta|fnm|uv) return 0 ;;
                 *) return 1 ;;
             esac
             ;;
