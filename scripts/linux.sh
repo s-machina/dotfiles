@@ -55,11 +55,6 @@ fix_symlinks() {
         return
     fi
 
-    # fd is named fdfind on Debian/Ubuntu
-    if ! command -v fd &> /dev/null && command -v fdfind &> /dev/null; then
-        sudo ln -sf "$(which fdfind)" /usr/local/bin/fd
-    fi
-
     # bat is named batcat on Debian/Ubuntu
     if ! command -v bat &> /dev/null && command -v batcat &> /dev/null; then
         sudo ln -sf "$(which batcat)" /usr/local/bin/bat
@@ -97,6 +92,27 @@ install_manual_packages() {
                 sudo dnf install -y gh
                 ;;
         esac
+    fi
+
+    # fd (distro versions are too old for snacks.nvim explorer, needs >= 8.4)
+    local fd_ver
+    fd_ver=$(fd --version 2>/dev/null | grep -oP '\d+\.\d+' || echo "0.0")
+    if [[ "$pm" != "pacman" ]] && (! command -v fd &> /dev/null || [[ "$(printf '%s\n' "8.4" "$fd_ver" | sort -V | head -1)" != "8.4" ]]); then
+        info "Installing fd from GitHub releases..."
+        FD_VERSION=$(curl -s "https://api.github.com/repos/sharkdp/fd/releases/latest" | grep -Po '"tag_name": "v\K[^"]*')
+        case "$pm" in
+            apt)
+                curl -Lo /tmp/fd.deb "https://github.com/sharkdp/fd/releases/latest/download/fd_${FD_VERSION}_amd64.deb"
+                sudo dpkg -i /tmp/fd.deb
+                rm /tmp/fd.deb
+                ;;
+            dnf)
+                curl -Lo /tmp/fd.rpm "https://github.com/sharkdp/fd/releases/latest/download/fd-v${FD_VERSION}-x86_64-unknown-linux-gnu.rpm"
+                sudo rpm -i /tmp/fd.rpm
+                rm /tmp/fd.rpm
+                ;;
+        esac
+        success "fd installed: $(fd --version)"
     fi
 
     # lazygit

@@ -22,6 +22,9 @@ return {
       explorer = {
         enabled = true,
       },
+      image = {
+        enabled = not vim.env.SSH_TTY,
+      },
     },
   },
 
