@@ -28,3 +28,26 @@ opt.undofile = true        -- Persistent undo
 opt.updatetime = 250       -- Faster completion
 opt.timeoutlen = 300       -- Faster key sequence completion
 opt.clipboard = "unnamedplus"  -- Use system clipboard
+
+-- Clipboard: explicit provider for tmux (avoids read-side warnings)
+-- Write uses OSC 52 (tmux intercepts and forwards to outer terminal)
+-- Read uses pbpaste on macOS, tmux paste buffer on Linux
+if vim.env.TMUX then
+  local function paste()
+    if vim.fn.executable("pbpaste") == 1 then
+      return vim.fn.systemlist("pbpaste")
+    end
+    return vim.fn.systemlist("tmux save-buffer -")
+  end
+  vim.g.clipboard = {
+    name = "tmux-osc52",
+    copy = {
+      ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+      ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+    },
+    paste = {
+      ["+"] = paste,
+      ["*"] = paste,
+    },
+  }
+end
