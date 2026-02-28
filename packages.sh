@@ -79,9 +79,9 @@ get_extra_packages() {
     local pm="$1"
 
     case "$pm" in
-        apt)    echo "python3-pip npm" ;;
-        dnf)    echo "python3-pip" ;;
-        pacman) echo "python-pip npm" ;;
+        apt)    echo "build-essential python3-pip npm unzip" ;;
+        dnf)    echo "gcc make python3-pip unzip" ;;
+        pacman) echo "base-devel python-pip npm unzip" ;;
     esac
 }
 

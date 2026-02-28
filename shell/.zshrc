@@ -153,14 +153,22 @@ if command -v bat &> /dev/null; then
     alias cat="bat --paging=never"
 fi
 
-# Terminal fix
-alias ft="reset && stty sane"
+# Terminal fix - targeted reset without full reinit
+alias ft="stty sane 2>/dev/null; printf '\e[0m\e[?25h\e[?47l\e[?1049l\e(B' 2>/dev/null"
 
 # Wrap ssh to auto-reset terminal after disconnect
 ssh() {
     command ssh "$@"
     local ret=$?
-    reset && stty sane
+    # Lightweight terminal recovery:
+    #   stty sane    - fix line discipline (echo, newlines, etc.)
+    #   \e[0m        - reset text attributes (colors, bold, etc.)
+    #   \e[?25h      - show cursor
+    #   \e[?47l      - exit alternate screen (legacy)
+    #   \e[?1049l    - exit alternate screen (xterm)
+    #   \e(B         - reset character set to ASCII
+    stty sane 2>/dev/null
+    printf '\e[0m\e[?25h\e[?47l\e[?1049l\e(B' 2>/dev/null
     return $ret
 }
 

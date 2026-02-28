@@ -10,9 +10,10 @@ return {
     },
   },
 
-  -- Auto dark mode - follows macOS system appearance
+  -- Auto dark mode - follows macOS system appearance (macOS only)
   {
     "f-person/auto-dark-mode.nvim",
+    enabled = vim.fn.has("macunix") == 1,
     lazy = false,
     priority = 999,
     opts = {
