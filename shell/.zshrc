@@ -279,4 +279,4 @@ tmux_auto_attach
 
 [[ -f ~/.zshrc.local ]] && source ~/.zshrc.local
 
-. "$HOME/.local/bin/env"
+[[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
