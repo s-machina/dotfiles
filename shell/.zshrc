@@ -153,6 +153,13 @@ if command -v bat &> /dev/null; then
     alias cat="bat --paging=never"
 fi
 
+# OSC52 clipboard - pipe stdin to local clipboard over SSH
+clip() {
+    local data
+    data=$(base64 | tr -d '\n')
+    printf '\e]52;c;%s\a' "$data"
+}
+
 # Terminal fix - targeted reset without full reinit
 alias ft="stty sane 2>/dev/null; printf '\e[0m\e[?25h\e[?47l\e[?1049l\e(B' 2>/dev/null"
 
