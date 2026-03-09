@@ -160,22 +160,31 @@ clip() {
     printf '\e]52;c;%s\a' "$data"
 }
 
-# Terminal fix - targeted reset without full reinit
-alias ft="stty sane 2>/dev/null; printf '\e[0m\e[?25h\e[?47l\e[?1049l\e(B' 2>/dev/null"
+# Terminal recovery - reset all modes that apps like neovim leave behind
+_terminal_reset() {
+    stty sane 2>/dev/null
+    printf '\e[0m' 2>/dev/null        # reset text attributes
+    printf '\e[?25h' 2>/dev/null       # show cursor
+    printf '\e[?47l' 2>/dev/null       # exit alternate screen (legacy)
+    printf '\e[?1049l' 2>/dev/null     # exit alternate screen (xterm)
+    printf '\e(B' 2>/dev/null          # reset charset to ASCII
+    printf '\e[?1l' 2>/dev/null        # reset cursor keys to normal mode
+    printf '\e[?1000l' 2>/dev/null     # disable mouse click tracking
+    printf '\e[?1002l' 2>/dev/null     # disable mouse button tracking
+    printf '\e[?1003l' 2>/dev/null     # disable mouse all-motion tracking
+    printf '\e[?1006l' 2>/dev/null     # disable SGR mouse mode
+    printf '\e[?2004l' 2>/dev/null     # disable bracketed paste
+    printf '\e[r' 2>/dev/null          # reset scroll region
+    printf '\e>' 2>/dev/null           # reset numeric keypad mode
+    printf '\e[?7h' 2>/dev/null        # re-enable line wrapping
+}
+alias ft="_terminal_reset"
 
 # Wrap ssh to auto-reset terminal after disconnect
 ssh() {
     command ssh "$@"
     local ret=$?
-    # Lightweight terminal recovery:
-    #   stty sane    - fix line discipline (echo, newlines, etc.)
-    #   \e[0m        - reset text attributes (colors, bold, etc.)
-    #   \e[?25h      - show cursor
-    #   \e[?47l      - exit alternate screen (legacy)
-    #   \e[?1049l    - exit alternate screen (xterm)
-    #   \e(B         - reset character set to ASCII
-    stty sane 2>/dev/null
-    printf '\e[0m\e[?25h\e[?47l\e[?1049l\e(B' 2>/dev/null
+    _terminal_reset
     return $ret
 }
 
