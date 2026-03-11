@@ -33,6 +33,14 @@ if [[ "$SHELL" != *"zsh"* ]]; then
     fi
 fi
 
+# Install default Node version via fnm if no node is available
+if command -v fnm &> /dev/null && ! command -v node &> /dev/null; then
+    info "Installing Node LTS via fnm..."
+    eval "$(fnm env)"
+    fnm install --lts
+    fnm default lts-latest
+fi
+
 # Install npm global packages
 if ! command -v claude &> /dev/null; then
     info "Installing Claude Code..."
