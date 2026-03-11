@@ -35,6 +35,9 @@ fi
 export GOPATH="$HOME/go"
 export PATH="$GOPATH/bin:$PATH"
 
+# Local bin
+export PATH="$HOME/.local/bin:$PATH"
+
 # fnm (Fast Node Manager)
 if command -v fnm &> /dev/null; then
     eval "$(fnm env --use-on-cd)"
@@ -42,9 +45,6 @@ fi
 
 # Node (npm global) - fallback if not using fnm
 export PATH="$HOME/.npm-global/bin:$PATH"
-
-# Local bin
-export PATH="$HOME/.local/bin:$PATH"
 
 # SSH session detection
 if [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" ]]; then
