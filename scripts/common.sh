@@ -21,7 +21,7 @@ cd "$DOTFILES_DIR"
 for package in "${STOW_PACKAGES[@]}"; do
     if [[ -d "$package" ]]; then
         info "  Stowing $package..."
-        stow -v --target="$HOME" "$package" 2>&1 | grep -v "^LINK:" || true
+        stow -v --adopt --target="$HOME" "$package" 2>&1 | grep -v "^LINK:" || true
     fi
 done
 
