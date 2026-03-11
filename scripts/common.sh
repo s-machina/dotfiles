@@ -36,7 +36,8 @@ fi
 # Ensure Node LTS is installed and set as default
 if command -v fnm &> /dev/null; then
     fnm install --lts
-    fnm default lts-latest
+    FNM_LTS_VERSION=$(fnm list | grep lts-latest | awk '{print $2}')
+    fnm default "$FNM_LTS_VERSION"
     eval "$(fnm env)"
 fi
 
