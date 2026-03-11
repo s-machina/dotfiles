@@ -33,9 +33,8 @@ if [[ "$SHELL" != *"zsh"* ]]; then
     fi
 fi
 
-# Install default Node version via fnm if no node is available
-if command -v fnm &> /dev/null && ! command -v node &> /dev/null; then
-    info "Installing Node LTS via fnm..."
+# Ensure Node LTS is installed and set as default
+if command -v fnm &> /dev/null; then
     fnm install --lts
     fnm default lts-latest
     eval "$(fnm env)"
