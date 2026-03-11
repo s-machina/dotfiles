@@ -36,7 +36,6 @@ fi
 # Install default Node version via fnm if no node is available
 if command -v fnm &> /dev/null && ! command -v node &> /dev/null; then
     info "Installing Node LTS via fnm..."
-    eval "$(fnm env)"
     fnm install --lts
     fnm default lts-latest
     eval "$(fnm env)"
