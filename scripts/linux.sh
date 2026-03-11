@@ -163,6 +163,7 @@ install_manual_packages() {
     if ! command -v fnm &> /dev/null; then
         info "Installing fnm..."
         curl -fsSL https://fnm.vercel.app/install | bash -s -- --skip-shell
+        ln -sf "$HOME/.local/share/fnm/fnm" "$HOME/.local/bin/fnm"
     fi
 
     # uv (Python version/venv manager)
