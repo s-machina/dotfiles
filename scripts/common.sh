@@ -39,6 +39,7 @@ if command -v fnm &> /dev/null && ! command -v node &> /dev/null; then
     eval "$(fnm env)"
     fnm install --lts
     fnm default lts-latest
+    eval "$(fnm env)"
 fi
 
 # Install npm global packages
