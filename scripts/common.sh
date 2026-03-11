@@ -39,6 +39,11 @@ if ! command -v claude &> /dev/null; then
     npm install -g @anthropic-ai/claude-code
 fi
 
+if ! command -v codex &> /dev/null; then
+    info "Installing Codex..."
+    npm install -g @openai/codex
+fi
+
 # Set up Claude Code configuration if it was installed and config exists
 if command -v claude &> /dev/null && [[ -f "$DOTFILES_DIR/claude-code/setup-claude-config.sh" ]]; then
     info "Setting up Claude Code configuration..."
