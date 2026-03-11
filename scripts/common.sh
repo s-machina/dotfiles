@@ -41,21 +41,21 @@ if command -v fnm &> /dev/null && ! command -v node &> /dev/null; then
     eval "$(fnm env)"
 fi
 
-# Install npm global packages
+# Claude Code
 if ! command -v claude &> /dev/null; then
     info "Installing Claude Code..."
     npm install -g @anthropic-ai/claude-code
 fi
 
-if ! command -v codex &> /dev/null; then
-    info "Installing Codex..."
-    npm install -g @openai/codex
-fi
-
-# Set up Claude Code configuration if it was installed and config exists
 if command -v claude &> /dev/null && [[ -f "$DOTFILES_DIR/claude-code/setup-claude-config.sh" ]]; then
     info "Setting up Claude Code configuration..."
     "$DOTFILES_DIR/claude-code/setup-claude-config.sh"
+fi
+
+# OpenAI Codex
+if ! command -v codex &> /dev/null; then
+    info "Installing Codex..."
+    npm install -g @openai/codex
 fi
 
 success "Common setup complete"
