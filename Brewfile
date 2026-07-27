@@ -34,3 +34,4 @@ brew "uv"               # Python version/venv/package manager
 
 # Casks (macOS GUI apps)
 cask "ghostty"
+cask "cmux"             # Ghostty-based terminal for AI coding agents (ships a CLI)
